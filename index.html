@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>FCC Markdown Previewer</title>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.2.7/marked.min.js" integrity="sha512-Sl04EWeJ0QgILm83WoubQbZqh71aWLJP8xnswnKSBI37S+ZtrWVtSHmd1YaYYdC1g9PWN1siY7KO2jU3HtCVHA==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.2.7/marked.min.js" integrity="sha512-Sl04EWeJ0QgILm83WoubQbZqh71aWLJP8xnswnKSBI37S+ZtrWVtSHmd1YaYYdC1g9PWN1siY7KO2jU3HtCVHA==" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+
+        <script>
+
+            // This is the text loaded into the Markdown Input box onload of the webpage
+            const onloadEditorValue = (
+                `# This is my markdown previewer.
+## I built it using HTML, CSS, JavaScript and Bootstrap.
+Here is a link to the project rubric](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-markdown-previewer)
+The HTML element that I used the most in this project was the \"ol\' faithful\" \`<div>\` element :)
+
+\`\`\`
+function exampleOf(){
+    return multiLineBlock;
+}
+\`\`\`
+
+- one
++ two
+* three
+
+> Going to get this down baby
+
+__Leonid Afremov's Street Of Illusions__
+![Leoniv Afremov's Street Of Illusions](https://i.imgur.com/1OoiUnX.png "Street Of Illusions")
+[Full size image here! It's beautiful <3](https://images-na.ssl-images-amazon.com/images/I/81ggDZboAwL._SL1488_.jpg?size=50x50)`
+            );
+
+            // Function that's run *typically* on any keystroke in the editor, converting the editor's value
+            // into Github flavored markdown
+            function changePreview() {
+
+                let previewElement = document.getElementById("preview")
+                let editorValue = document.getElementById("editor").value;
+                let editorValueMarked = marked(editorValue, {breaks: true});
+                previewElement.innerHTML = editorValueMarked;
+            }
+
+            // Function that's run at the start, to set the value of the editor to the string onloadEditorValue
+            // Then changePreview is called, to immediately interpret the editor's value into the preview
+            function setDefault() {
+                let initEditor = document.getElementById("editor");
+                initEditor.value = onloadEditorValue;
+                changePreview()
+            }
+
+            // Running setDefault at the start of the program
+            window.onload = setDefault;
+
+        </script>
+
+        <style>
+
+            body {
+                background-color: black;
+                color: white;
+                margin-top: 2em;
+            }
+
+            pre code {
+                background-color: inherit;
+                color: yellow;
+            }
+
+            code {
+                color: yellow;
+                background-color: grey;
+            }
+
+            #main-body  {
+                padding: 1em;
+
+                width: 75vw;
+                border-radius: 20px;
+
+                background-color: #191919;
+            }
+
+            #main-body label {
+                font-family: 'Russo One', sans-serif;
+            }
+
+
+            #header {
+                font-size: 3rem;
+                font-family: 'Press Start 2P', cursive;
+            }
+
+
+            .squish-content-row {
+                width: 90%;
+                margin: auto;
+
+            }
+
+            .editor-preview-column-padding {
+                padding: 1em;
+            }
+
+            #editor {
+                font-family: monospace;
+                color: #33FF00;
+                background-color: #323232;
+
+                padding: 1em;
+                width: 80%;
+                border: none;
+                box-shadow: 0px 0px 3px 3px black;
+                height: 70vh;
+
+                resize: none;
+            }
+
+            .preview-window {
+                background-color: #323232;
+                display: block;
+
+                padding: 1em 0 1em 1em;
+                height: 70vh;
+                width: 80%;
+                border: 1em #323232;
+                border-radius: 10px;
+                box-shadow: 0px 0px 3px 3px black;
+
+            }
+
+            .preview-box {
+                height: 100%;
+                border: 1em #323232;
+
+                overflow-y: scroll;
+            }
+
+            #preview {
+                font-family: 'Source Code Pro', monospace;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container-fluid" id="main-body">
+
+            <div class="row justify-content-center" id="title-row">
+                <h1 id="header" style="text-align: center;">
+                    Markdown Previewer
+                </h1>
+            </div>
+
+            <div class="row squish-content-row" id="content-row">
+
+                <div class="col-md-6 col-styling editor-preview-column-padding" id="editor-column">
+
+                    <div class="row justify-content-center" id="">
+                        <label for="editor">Markdown Input</label>
+                    </div>
+                    <div class="row justify-content-center">
+                        <textarea  class="form-control rounded-10" id="editor" onkeyup=changePreview()>
+                        </textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-styling editor-preview-column-padding">
+                    <div class="row justify-content-center" id="preview-column">
+                        <label for="preview">Preview</label>
+                    </div>
+                    <div class="row justify-content-center">
+
+                        <div class="preview-window">
+                            <div class="preview-box">
+                                <p id="preview" class="preview-text">
+
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
